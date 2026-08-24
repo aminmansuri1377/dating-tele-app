@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: contain;
+}
+
+/* Bridge Telegram theme colors so the app can follow the user's TG theme if desired */
+:root {
+  --tg-bg: var(--tg-theme-bg-color, #ffffff);
+  --tg-text: var(--tg-theme-text-color, #111111);
+}
+
+.card-shadow {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}

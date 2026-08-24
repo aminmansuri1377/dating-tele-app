@@ -1,0 +1,77 @@
+{
+  "app_name": "قريب",
+  "welcome": {
+    "title": "ابحث عن علاقات حقيقية",
+    "subtitle": "اسحب، تطابق، وتحدث — كل ذلك داخل تيليجرام.",
+    "continue": "المتابعة عبر تيليجرام"
+  },
+  "language": {
+    "select_title": "اختر لغتك",
+    "continue": "متابعة"
+  },
+  "profile_setup": {
+    "title": "أنشئ ملفك الشخصي",
+    "photos": "إضافة صور",
+    "display_name": "الاسم المعروض",
+    "age": "العمر",
+    "gender": "الجنس",
+    "gender_male": "ذكر",
+    "gender_female": "أنثى",
+    "gender_other": "آخر",
+    "interested_in": "مهتم بـ",
+    "bio": "نبذة عنك",
+    "city": "المدينة",
+    "country": "البلد",
+    "languages_spoken": "اللغات التي تتحدثها",
+    "goal": "ماذا تبحث عنه؟",
+    "goal_dating": "المواعدة",
+    "goal_friendship": "صداقة",
+    "goal_chat": "دردشة",
+    "goal_relationship": "علاقة",
+    "save": "حفظ الملف الشخصي"
+  },
+  "discovery": {
+    "title": "استكشاف",
+    "no_more_cards": "لا توجد ملفات جديدة قريبة منك الآن",
+    "swipe_limit_reached": "لقد وصلت للحد اليومي من السحب",
+    "upgrade_cta": "قم بالترقية إلى بريميوم للسحب غير المحدود"
+  },
+  "matches": {
+    "title": "التطابقات",
+    "empty": "لا توجد تطابقات بعد — استمر في السحب!",
+    "new_match": "لقد تطابقتما!"
+  },
+  "chat": {
+    "type_message": "اكتب رسالة...",
+    "send": "إرسال",
+    "block_user": "حظر المستخدم",
+    "report_user": "الإبلاغ عن المستخدم",
+    "daily_limit": "لقد وصلت للحد اليومي المجاني للرسائل مع التطابقات الجديدة"
+  },
+  "premium": {
+    "title": "الترقية إلى بريميوم",
+    "subtitle": "افتح التجربة الكاملة",
+    "feature_unlimited_swipes": "سحب غير محدود",
+    "feature_see_likes": "معرفة من أعجب بك",
+    "feature_unlimited_messages": "رسائل غير محدودة",
+    "feature_priority": "ظهور بأولوية",
+    "plan_basic": "أساسي — 7 أيام",
+    "plan_premium": "بريميوم — 30 يومًا",
+    "plan_vip": "VIP — 90 يومًا",
+    "pay_with_ton": "الدفع عبر TON"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "edit_profile": "تعديل الملف الشخصي",
+    "language": "اللغة",
+    "dark_mode": "الوضع الداكن",
+    "subscription": "الاشتراك",
+    "logout": "تسجيل الخروج"
+  },
+  "common": {
+    "loading": "جارٍ التحميل...",
+    "error": "حدث خطأ ما",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد"
+  }
+}

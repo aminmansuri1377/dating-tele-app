@@ -1,0 +1,77 @@
+{
+  "app_name": "Рядом",
+  "welcome": {
+    "title": "Найди настоящие связи",
+    "subtitle": "Свайпай, находи пару, общайся — прямо в Telegram.",
+    "continue": "Продолжить через Telegram"
+  },
+  "language": {
+    "select_title": "Выберите язык",
+    "continue": "Продолжить"
+  },
+  "profile_setup": {
+    "title": "Создайте анкету",
+    "photos": "Добавить фото",
+    "display_name": "Отображаемое имя",
+    "age": "Возраст",
+    "gender": "Пол",
+    "gender_male": "Мужской",
+    "gender_female": "Женский",
+    "gender_other": "Другое",
+    "interested_in": "Интересуюсь",
+    "bio": "О себе",
+    "city": "Город",
+    "country": "Страна",
+    "languages_spoken": "Языки, на которых вы говорите",
+    "goal": "Что вы ищете?",
+    "goal_dating": "Свидания",
+    "goal_friendship": "Дружба",
+    "goal_chat": "Общение",
+    "goal_relationship": "Отношения",
+    "save": "Сохранить анкету"
+  },
+  "discovery": {
+    "title": "Поиск",
+    "no_more_cards": "Поблизости пока нет новых анкет",
+    "swipe_limit_reached": "Дневной лимит свайпов исчерпан",
+    "upgrade_cta": "Оформите Premium для безлимитных свайпов"
+  },
+  "matches": {
+    "title": "Совпадения",
+    "empty": "Пока нет совпадений — продолжайте свайпать!",
+    "new_match": "Это совпадение!"
+  },
+  "chat": {
+    "type_message": "Напишите сообщение...",
+    "send": "Отправить",
+    "block_user": "Заблокировать пользователя",
+    "report_user": "Пожаловаться",
+    "daily_limit": "Вы достигли дневного лимита бесплатных сообщений новым совпадениям"
+  },
+  "premium": {
+    "title": "Перейти на Premium",
+    "subtitle": "Откройте все возможности",
+    "feature_unlimited_swipes": "Безлимитные свайпы",
+    "feature_see_likes": "Видеть, кто вас лайкнул",
+    "feature_unlimited_messages": "Безлимитные сообщения",
+    "feature_priority": "Приоритетный показ",
+    "plan_basic": "Базовый — 7 дней",
+    "plan_premium": "Premium — 30 дней",
+    "plan_vip": "VIP — 90 дней",
+    "pay_with_ton": "Оплатить через TON"
+  },
+  "settings": {
+    "title": "Настройки",
+    "edit_profile": "Редактировать анкету",
+    "language": "Язык",
+    "dark_mode": "Тёмная тема",
+    "subscription": "Подписка",
+    "logout": "Выйти"
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Что-то пошло не так",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "app_name": "Cerca",
+  "welcome": {
+    "title": "Encuentra conexiones reales",
+    "subtitle": "Desliza, haz match y chatea — todo dentro de Telegram.",
+    "continue": "Continuar con Telegram"
+  },
+  "language": {
+    "select_title": "Elige tu idioma",
+    "continue": "Continuar"
+  },
+  "profile_setup": {
+    "title": "Crea tu perfil",
+    "photos": "Añadir fotos",
+    "display_name": "Nombre visible",
+    "age": "Edad",
+    "gender": "Género",
+    "gender_male": "Hombre",
+    "gender_female": "Mujer",
+    "gender_other": "Otro",
+    "interested_in": "Interesado en",
+    "bio": "Sobre ti",
+    "city": "Ciudad",
+    "country": "País",
+    "languages_spoken": "Idiomas que hablas",
+    "goal": "¿Qué estás buscando?",
+    "goal_dating": "Citas",
+    "goal_friendship": "Amistad",
+    "goal_chat": "Chatear",
+    "goal_relationship": "Relación",
+    "save": "Guardar perfil"
+  },
+  "discovery": {
+    "title": "Descubrir",
+    "no_more_cards": "No hay perfiles nuevos cerca por ahora",
+    "swipe_limit_reached": "Límite diario de deslizamientos alcanzado",
+    "upgrade_cta": "Hazte Premium para deslizamientos ilimitados"
+  },
+  "matches": {
+    "title": "Matches",
+    "empty": "Aún no tienes matches — ¡sigue deslizando!",
+    "new_match": "¡Es un match!"
+  },
+  "chat": {
+    "type_message": "Escribe un mensaje...",
+    "send": "Enviar",
+    "block_user": "Bloquear usuario",
+    "report_user": "Reportar usuario",
+    "daily_limit": "Has alcanzado el límite diario de mensajes gratis a nuevos matches"
+  },
+  "premium": {
+    "title": "Hazte Premium",
+    "subtitle": "Desbloquea la experiencia completa",
+    "feature_unlimited_swipes": "Deslizamientos ilimitados",
+    "feature_see_likes": "Ver quién te dio like",
+    "feature_unlimited_messages": "Mensajes ilimitados",
+    "feature_priority": "Visualización prioritaria",
+    "plan_basic": "Básico — 7 días",
+    "plan_premium": "Premium — 30 días",
+    "plan_vip": "VIP — 90 días",
+    "pay_with_ton": "Pagar con TON"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "edit_profile": "Editar perfil",
+    "language": "Idioma",
+    "dark_mode": "Modo oscuro",
+    "subscription": "Suscripción",
+    "logout": "Cerrar sesión"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
+  }
+}

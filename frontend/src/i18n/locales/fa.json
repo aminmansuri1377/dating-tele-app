@@ -1,0 +1,77 @@
+{
+  "app_name": "نزدیک",
+  "welcome": {
+    "title": "ارتباط‌های واقعی پیدا کن",
+    "subtitle": "سوایپ کن، مچ شو، چت کن — همه‌جا داخل تلگرام.",
+    "continue": "ادامه با تلگرام"
+  },
+  "language": {
+    "select_title": "زبان خود را انتخاب کنید",
+    "continue": "ادامه"
+  },
+  "profile_setup": {
+    "title": "پروفایل خود را بسازید",
+    "photos": "افزودن عکس",
+    "display_name": "نام نمایشی",
+    "age": "سن",
+    "gender": "جنسیت",
+    "gender_male": "مرد",
+    "gender_female": "زن",
+    "gender_other": "دیگر",
+    "interested_in": "علاقه‌مند به",
+    "bio": "درباره‌ی شما",
+    "city": "شهر",
+    "country": "کشور",
+    "languages_spoken": "زبان‌هایی که صحبت می‌کنید",
+    "goal": "به دنبال چه چیزی هستید؟",
+    "goal_dating": "قرار ملاقات",
+    "goal_friendship": "دوستی",
+    "goal_chat": "گفتگو",
+    "goal_relationship": "رابطه",
+    "save": "ذخیره پروفایل"
+  },
+  "discovery": {
+    "title": "کشف",
+    "no_more_cards": "در حال حاضر پروفایل جدیدی نزدیک شما نیست",
+    "swipe_limit_reached": "محدودیت روزانه سوایپ به پایان رسید",
+    "upgrade_cta": "برای سوایپ نامحدود، پرمیوم بگیرید"
+  },
+  "matches": {
+    "title": "مچ‌ها",
+    "empty": "هنوز مچی نداری — به سوایپ ادامه بده!",
+    "new_match": "مچ شدید!"
+  },
+  "chat": {
+    "type_message": "پیام بنویسید...",
+    "send": "ارسال",
+    "block_user": "مسدود کردن کاربر",
+    "report_user": "گزارش کاربر",
+    "daily_limit": "به محدودیت روزانه پیام رایگان برای مچ‌های جدید رسیدید"
+  },
+  "premium": {
+    "title": "ارتقا به پرمیوم",
+    "subtitle": "تجربه کامل را باز کنید",
+    "feature_unlimited_swipes": "سوایپ نامحدود",
+    "feature_see_likes": "دیدن کسانی که شما را لایک کرده‌اند",
+    "feature_unlimited_messages": "پیام نامحدود",
+    "feature_priority": "نمایش با اولویت",
+    "plan_basic": "پایه — ۷ روز",
+    "plan_premium": "پرمیوم — ۳۰ روز",
+    "plan_vip": "وی‌آی‌پی — ۹۰ روز",
+    "pay_with_ton": "پرداخت با TON"
+  },
+  "settings": {
+    "title": "تنظیمات",
+    "edit_profile": "ویرایش پروفایل",
+    "language": "زبان",
+    "dark_mode": "حالت تیره",
+    "subscription": "اشتراک",
+    "logout": "خروج"
+  },
+  "common": {
+    "loading": "در حال بارگذاری...",
+    "error": "مشکلی پیش آمد",
+    "cancel": "لغو",
+    "confirm": "تایید"
+  }
+}

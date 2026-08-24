@@ -1,0 +1,77 @@
+{
+  "app_name": "Yakın",
+  "welcome": {
+    "title": "Gerçek bağlantılar bul",
+    "subtitle": "Kaydır, eşleş, sohbet et — hepsi Telegram içinde.",
+    "continue": "Telegram ile devam et"
+  },
+  "language": {
+    "select_title": "Dilinizi seçin",
+    "continue": "Devam et"
+  },
+  "profile_setup": {
+    "title": "Profilini oluştur",
+    "photos": "Fotoğraf ekle",
+    "display_name": "Görünen ad",
+    "age": "Yaş",
+    "gender": "Cinsiyet",
+    "gender_male": "Erkek",
+    "gender_female": "Kadın",
+    "gender_other": "Diğer",
+    "interested_in": "İlgi alanı",
+    "bio": "Hakkında",
+    "city": "Şehir",
+    "country": "Ülke",
+    "languages_spoken": "Konuştuğun diller",
+    "goal": "Ne arıyorsun?",
+    "goal_dating": "Flört",
+    "goal_friendship": "Arkadaşlık",
+    "goal_chat": "Sohbet",
+    "goal_relationship": "İlişki",
+    "save": "Profili kaydet"
+  },
+  "discovery": {
+    "title": "Keşfet",
+    "no_more_cards": "Şu anda yakınında yeni profil yok",
+    "swipe_limit_reached": "Günlük kaydırma limitine ulaşıldı",
+    "upgrade_cta": "Sınırsız kaydırma için Premium'a geç"
+  },
+  "matches": {
+    "title": "Eşleşmeler",
+    "empty": "Henüz eşleşme yok — kaydırmaya devam et!",
+    "new_match": "Eşleştiniz!"
+  },
+  "chat": {
+    "type_message": "Bir mesaj yaz...",
+    "send": "Gönder",
+    "block_user": "Kullanıcıyı engelle",
+    "report_user": "Kullanıcıyı bildir",
+    "daily_limit": "Yeni eşleşmelere günlük ücretsiz mesaj limitine ulaştınız"
+  },
+  "premium": {
+    "title": "Premium'a geç",
+    "subtitle": "Tüm deneyimin kilidini aç",
+    "feature_unlimited_swipes": "Sınırsız kaydırma",
+    "feature_see_likes": "Seni kimin beğendiğini gör",
+    "feature_unlimited_messages": "Sınırsız mesaj",
+    "feature_priority": "Öncelikli gösterim",
+    "plan_basic": "Temel — 7 gün",
+    "plan_premium": "Premium — 30 gün",
+    "plan_vip": "VIP — 90 gün",
+    "pay_with_ton": "TON ile öde"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "edit_profile": "Profili düzenle",
+    "language": "Dil",
+    "dark_mode": "Koyu mod",
+    "subscription": "Abonelik",
+    "logout": "Çıkış yap"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Bir şeyler ters gitti",
+    "cancel": "İptal",
+    "confirm": "Onayla"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "app_name": "Nearby",
+  "welcome": {
+    "title": "Find real connections",
+    "subtitle": "Swipe, match, and chat — right inside Telegram.",
+    "continue": "Continue with Telegram"
+  },
+  "language": {
+    "select_title": "Choose your language",
+    "continue": "Continue"
+  },
+  "profile_setup": {
+    "title": "Create your profile",
+    "photos": "Add photos",
+    "display_name": "Display name",
+    "age": "Age",
+    "gender": "Gender",
+    "gender_male": "Male",
+    "gender_female": "Female",
+    "gender_other": "Other",
+    "interested_in": "Interested in",
+    "bio": "About you",
+    "city": "City",
+    "country": "Country",
+    "languages_spoken": "Languages you speak",
+    "goal": "What are you looking for?",
+    "goal_dating": "Dating",
+    "goal_friendship": "Friendship",
+    "goal_chat": "Chat",
+    "goal_relationship": "Relationship",
+    "save": "Save profile"
+  },
+  "discovery": {
+    "title": "Discover",
+    "no_more_cards": "No more profiles nearby right now",
+    "swipe_limit_reached": "Daily swipe limit reached",
+    "upgrade_cta": "Upgrade to Premium for unlimited swipes"
+  },
+  "matches": {
+    "title": "Matches",
+    "empty": "No matches yet — keep swiping!",
+    "new_match": "It's a match!"
+  },
+  "chat": {
+    "type_message": "Type a message...",
+    "send": "Send",
+    "block_user": "Block user",
+    "report_user": "Report user",
+    "daily_limit": "You've reached today's free message limit for new matches"
+  },
+  "premium": {
+    "title": "Go Premium",
+    "subtitle": "Unlock the full experience",
+    "feature_unlimited_swipes": "Unlimited swipes",
+    "feature_see_likes": "See who liked you",
+    "feature_unlimited_messages": "Unlimited messages",
+    "feature_priority": "Priority placement",
+    "plan_basic": "Basic — 7 days",
+    "plan_premium": "Premium — 30 days",
+    "plan_vip": "VIP — 90 days",
+    "pay_with_ton": "Pay with TON"
+  },
+  "settings": {
+    "title": "Settings",
+    "edit_profile": "Edit profile",
+    "language": "Language",
+    "dark_mode": "Dark mode",
+    "subscription": "Subscription",
+    "logout": "Log out"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  }
+}
