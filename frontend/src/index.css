@@ -2,19 +2,835 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  -webkit-tap-highlight-color: transparent;
-  overscroll-behavior-y: contain;
-}
+/* =========================================================
+   Telegram Mini App Theme
+   ========================================================= */
 
-/* Bridge Telegram theme colors so the app can follow the user's TG theme if desired */
 :root {
-  --tg-bg: var(--tg-theme-bg-color, #ffffff);
-  --tg-text: var(--tg-theme-text-color, #111111);
+  color-scheme: light;
+
+  --app-bg: var(--tg-theme-bg-color, #ffffff);
+  --app-secondary-bg: var(--tg-theme-secondary-bg-color, #f4f4f5);
+
+  --app-text: var(--tg-theme-text-color, #111111);
+
+  --app-hint: var(--tg-theme-hint-color, #737373);
+
+  --app-link: var(--tg-theme-link-color, #2481cc);
+
+  --app-button: var(--tg-theme-button-color, #ff4d6d);
+
+  --app-button-text: var(--tg-theme-button-text-color, #ffffff);
+
+  --app-section-bg: var(--tg-theme-secondary-bg-color, #f6f6f7);
+
+  --app-border: rgba(0, 0, 0, 0.1);
+
+  --app-danger: #ef4444;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-.card-shadow {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+html.dark {
+  color-scheme: dark;
+
+  --app-border: rgba(255, 255, 255, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--app-bg);
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  background: var(--app-bg);
+  color: var(--app-text);
+
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  overflow-x: hidden;
+
+  /*
+   * Prevent accidental browser overscroll
+   * inside Telegram WebView.
+   */
+  overscroll-behavior-x: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+textarea {
+  /*
+   * Prevent iOS Safari from zooming when an input
+   * is smaller than 16px.
+   */
+  font-size: 16px;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(255, 77, 109, 0.2);
+}
+
+/* =========================================================
+   Generic helpers
+   ========================================================= */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================================================
+   Profile Setup
+   ========================================================= */
+
+.profile-page {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  padding-top: calc(20px + var(--safe-top));
+
+  padding-right: max(16px, env(safe-area-inset-right, 16px));
+
+  padding-bottom: calc(32px + var(--safe-bottom));
+
+  padding-left: max(16px, env(safe-area-inset-left, 16px));
+
+  background:
+    radial-gradient(circle at top, rgba(255, 77, 109, 0.08), transparent 35%),
+    var(--app-bg);
+
+  color: var(--app-text);
+
+  overflow-x: hidden;
+}
+
+.profile-container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.profile-header {
+  text-align: center;
+
+  padding: 4px 4px 0;
+}
+
+.profile-header-badge {
+  width: 52px;
+  height: 52px;
+
+  margin: 0 auto 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: rgba(255, 77, 109, 0.12);
+
+  font-size: 25px;
+}
+
+.profile-header h1 {
+  margin: 0;
+
+  font-size: clamp(24px, 6vw, 32px);
+
+  line-height: 1.15;
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+
+  color: var(--app-text);
+}
+
+.profile-header p {
+  margin: 8px 0 0;
+
+  color: var(--app-hint);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   Cards / sections
+   ========================================================= */
+
+.photo-section,
+.form-section {
+  width: 100%;
+
+  border-radius: 22px;
+
+  background: var(--app-section-bg);
+
+  border: 1px solid var(--app-border);
+
+  padding: 16px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* =========================================================
+   Section heading
+   ========================================================= */
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 14px;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: var(--app-text);
+
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 750;
+}
+
+.section-heading p {
+  margin: 4px 0 0;
+
+  color: var(--app-hint);
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.photo-counter {
+  flex-shrink: 0;
+
+  padding: 6px 9px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 77, 109, 0.1);
+
+  color: #ff4d6d;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   Photo grid
+   ========================================================= */
+
+.photo-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.photo-slot {
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 1 / 1;
+
+  min-width: 0;
+
+  padding: 0;
+
+  border: 0;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  background: rgba(127, 127, 127, 0.08);
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.photo-slot:disabled {
+  opacity: 0.65;
+}
+
+.photo-slot-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1.5px dashed rgba(127, 127, 127, 0.35);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.photo-slot-empty:active {
+  transform: scale(0.97);
+}
+
+.photo-slot-filled {
+  background: #e5e5e5;
+}
+
+.photo-preview {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.photo-plus {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 77, 109, 0.12);
+
+  color: #ff4d6d;
+
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.photo-main-label {
+  position: absolute;
+
+  left: 8px;
+  bottom: 8px;
+
+  padding: 4px 7px;
+
+  border-radius: 7px;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  color: white;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.photo-remove {
+  position: absolute;
+
+  top: 7px;
+  right: 7px;
+
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  color: white;
+
+  font-size: 20px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  z-index: 2;
+}
+
+.photo-remove:disabled {
+  opacity: 0.5;
+}
+
+.photo-footer {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 9px;
+
+  color: var(--app-hint);
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   Upload state
+   ========================================================= */
+
+.upload-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 12px;
+
+  color: var(--app-hint);
+
+  font-size: 13px;
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  border: 2px solid rgba(127, 127, 127, 0.25);
+
+  border-top-color: #ff4d6d;
+
+  animation: profile-spin 0.75s linear infinite;
+}
+
+.loading-spinner-light {
+  border-color: rgba(255, 255, 255, 0.35);
+
+  border-top-color: white;
+}
+
+@keyframes profile-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   Fields
+   ========================================================= */
+
+.field {
+  width: 100%;
+  min-width: 0;
+}
+
+.field-group {
+  width: 100%;
+  min-width: 0;
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+}
+
+.field-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--app-text);
+
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 650;
+}
+
+.field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+.character-count {
+  margin-bottom: 7px;
+
+  color: var(--app-hint);
+
+  font-size: 11px;
+}
+
+.form-control {
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 48px;
+
+  padding: 12px 14px;
+
+  border: 1px solid var(--app-border);
+  border-radius: 14px;
+
+  outline: none;
+
+  background: var(--app-bg);
+
+  color: var(--app-text);
+
+  font-size: 16px;
+  line-height: 1.35;
+
+  appearance: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.form-control::placeholder {
+  color: var(--app-hint);
+  opacity: 0.75;
+}
+
+.form-control:focus {
+  border-color: #ff4d6d;
+
+  box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.12);
+}
+
+.form-control:disabled {
+  opacity: 0.6;
+}
+
+.form-textarea {
+  min-height: 112px;
+
+  resize: vertical;
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   City / country
+   ========================================================= */
+
+.two-column-fields {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  gap: 12px;
+}
+
+/* =========================================================
+   Choice buttons
+   ========================================================= */
+
+.choice-grid {
+  display: grid;
+
+  width: 100%;
+
+  gap: 9px;
+}
+
+.choice-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.choice-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.choice-button {
+  width: 100%;
+  min-width: 0;
+
+  min-height: 46px;
+
+  padding: 10px 8px;
+
+  border: 1px solid var(--app-border);
+  border-radius: 13px;
+
+  background: var(--app-bg);
+
+  color: var(--app-text);
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.choice-button:active {
+  transform: scale(0.98);
+}
+
+.choice-button-active {
+  border-color: #ff4d6d;
+
+  background: rgba(255, 77, 109, 0.1);
+
+  color: #ff4d6d;
+}
+
+/* =========================================================
+   Actions
+   ========================================================= */
+
+.secondary-action {
+  width: 100%;
+
+  min-height: 44px;
+
+  margin-top: 12px;
+
+  padding: 10px 14px;
+
+  border: 1px solid rgba(255, 77, 109, 0.3);
+
+  border-radius: 13px;
+
+  background: rgba(255, 77, 109, 0.07);
+
+  color: #ff4d6d;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.secondary-action:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.save-button {
+  width: 100%;
+
+  min-height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 13px 18px;
+
+  border: 0;
+  border-radius: 16px;
+
+  background: var(--app-button, #ff4d6d);
+
+  color: var(--app-button-text, white);
+
+  font-size: 16px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  box-shadow: 0 7px 18px rgba(255, 77, 109, 0.18);
+
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease;
+}
+
+.save-button:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.save-button:disabled {
+  opacity: 0.5;
+
+  cursor: default;
+
+  box-shadow: none;
+}
+
+.form-error {
+  margin: 8px 0 0;
+
+  color: var(--app-danger);
+
+  font-size: 13px;
+  line-height: 1.45;
+
+  text-align: center;
+}
+
+.profile-footer-note {
+  margin: -8px 0 0;
+
+  color: var(--app-hint);
+
+  font-size: 12px;
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+/* =========================================================
+   Dark mode
+   ========================================================= */
+
+html.dark .profile-page {
+  background:
+    radial-gradient(circle at top, rgba(255, 77, 109, 0.12), transparent 38%),
+    var(--app-bg);
+}
+
+html.dark .photo-slot-filled {
+  background: #2b2b2b;
+}
+
+/* =========================================================
+   RTL
+   ========================================================= */
+
+html[dir="rtl"] .field-label,
+html[dir="rtl"] .form-control {
+  text-align: right;
+}
+
+html[dir="rtl"] .profile-header {
+  text-align: center;
+}
+
+/* =========================================================
+   Small phones
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .profile-page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .photo-section,
+  .form-section {
+    padding: 13px;
+    border-radius: 18px;
+  }
+
+  .photo-grid {
+    gap: 7px;
+  }
+
+  .photo-slot {
+    border-radius: 13px;
+  }
+
+  .choice-grid {
+    gap: 7px;
+  }
+
+  .choice-button {
+    padding-left: 5px;
+    padding-right: 5px;
+
+    font-size: 12px;
+  }
+
+  .two-column-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* =========================================================
+   Larger screens
+   ========================================================= */
+
+@media (min-width: 641px) {
+  .profile-page {
+    padding-top: 32px;
+    padding-bottom: 48px;
+  }
+
+  .profile-container {
+    gap: 22px;
+  }
+
+  .photo-section,
+  .form-section {
+    padding: 22px;
+  }
 }
