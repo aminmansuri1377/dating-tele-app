@@ -14,8 +14,15 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (err) => {
+    // Only trigger logout on 401 if we're not already logging out
+    // This prevents interleaving with manual logout
     if (err.response?.status === 401) {
-      useAuthStore.getState().logout();
+      const store = useAuthStore.getState();
+      // If the user is already in the process of logging out (token being cleared),
+      // don't trigger another logout via the interceptor
+      if (store.accessToken) {
+        store.logout();
+      }
     }
     return Promise.reject(err);
   },

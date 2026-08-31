@@ -28,7 +28,21 @@ export default function DiscoveryPage() {
       setCandidates(data.candidates);
       setError(null);
     } catch (err: any) {
-      setError(err.response?.data?.message ?? t('common.error'));
+      const status = err.response?.status;
+      const message = err.response?.data?.message;
+      
+      // Handle premium swipe limit error (403 Forbidden)
+      if (status === 403 && message?.includes('Upgrade to Premium')) {
+        setError(message);
+      }
+      // Handle daily swipe limit reached (also 403)
+      else if (status === 403 && message?.includes('Daily swipe limit')) {
+        setError(message);
+      }
+      // Generic server error (401 handled by API client interceptor)
+      else {
+        setError(t('common.error'));
+      }
     }
   }
 
@@ -51,8 +65,9 @@ export default function DiscoveryPage() {
       <h1 className="text-xl font-bold mb-4">{t('discovery.title')}</h1>
 
       {error && (
-        <div className="p-4 rounded-card bg-brand/10 text-brand text-sm mb-4">
-          {error} — <span className="underline">{t('discovery.upgrade_cta')}</span>
+        <div className="p-4 rounded-card bg-green-100 text-green-800 border border-green-200 mb-4">
+          <p className="text-sm">{error}</p>
+          <p className="text-xs mt-1">{t('discovery.upgrade_cta')}</p>
         </div>
       )}
 

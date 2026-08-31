@@ -55,10 +55,13 @@ export class AuthService {
       isAdmin: user.isAdmin,
     });
 
+    // For new users (no profile yet), always require profile setup
+    const needsProfileSetup = !user.profile?.isComplete;
+
     return {
       accessToken,
       isNewUser,
-      needsProfileSetup: !user.profile?.isComplete,
+      needsProfileSetup,
       user: {
         id: user.id,
         username: user.username,
