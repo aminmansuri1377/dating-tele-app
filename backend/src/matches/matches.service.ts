@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { TelegramNotifierService } from './telegram-notifier.service';
 
@@ -6,14 +6,23 @@ import { TelegramNotifierService } from './telegram-notifier.service';
 export class MatchesService {
   constructor(private prisma: PrismaService, private notifier: TelegramNotifierService) {}
 
-  /** userAId is always stored as the lexicographically-smaller id to keep the unique constraint stable */
   private orderIds(a: string, b: string): [string, string] {
     return a < b ? [a, b] : [b, a];
   }
 
   async createMatch(userId1: string, userId2: string) {
-    const [userAId, userBId] = this.orderIds(userId1, userId2);
+    const blocked = await this.prisma.blockedUser.findFirst({
+      where: {
+        OR: [
+          { blockerId: userId1, blockedId: userId2 },
+          { blockerId: userId2, blockedId: userId1 },
+        ],
+      },
+      select: { id: true },
+    });
+    if (blocked) throw new ForbiddenException('Cannot match with a blocked user');
 
+    const [userAId, userBId] = this.orderIds(userId1, userId2);
     const match = await this.prisma.match.upsert({
       where: { userAId_userBId: { userAId, userBId } },
       create: { userAId, userBId },
@@ -24,9 +33,7 @@ export class MatchesService {
       },
     });
 
-    // Fire-and-forget Telegram push notifications to both users
     this.notifier.notifyMatch(match.userA, match.userB).catch(() => undefined);
-
     return match;
   }
 
@@ -34,8 +41,32 @@ export class MatchesService {
     return this.prisma.match.findMany({
       where: { OR: [{ userAId: userId }, { userBId: userId }], isActive: true },
       include: {
-        userA: { include: { profile: true, photos: { take: 1, orderBy: { position: 'asc' } } } },
-        userB: { include: { profile: true, photos: { take: 1, orderBy: { position: 'asc' } } } },
+        userA: {
+          select: {
+            id: true,
+            firstName: true,
+            profile: true,
+            photos: {
+              where: { isApproved: true },
+              take: 1,
+              orderBy: { position: 'asc' },
+              select: { id: true, url: true, position: true },
+            },
+          },
+        },
+        userB: {
+          select: {
+            id: true,
+            firstName: true,
+            profile: true,
+            photos: {
+              where: { isApproved: true },
+              take: 1,
+              orderBy: { position: 'asc' },
+              select: { id: true, url: true, position: true },
+            },
+          },
+        },
         messages: { orderBy: { createdAt: 'desc' }, take: 1 },
       },
       orderBy: { createdAt: 'desc' },

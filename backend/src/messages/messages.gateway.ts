@@ -1,36 +1,48 @@
 import {
-  WebSocketGateway,
-  WebSocketServer,
-  SubscribeMessage,
+  ConnectedSocket,
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
-  MessageBody,
-  ConnectedSocket,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+  WsException,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Logger, UnauthorizedException } from '@nestjs/common';
+import { Server, Socket } from 'socket.io';
+import { PrismaService } from '../prisma/prisma.service';
 import { MessagesService } from './messages.service';
 
-/**
- * Real-time layer. Auth: client connects with `auth: { token: <JWT> }`.
- * Each connected socket joins a room per matchId it's a participant of.
- */
 @WebSocketGateway({ cors: true, namespace: '/chat' })
 export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   private readonly logger = new Logger(MessagesGateway.name);
 
-  constructor(private jwt: JwtService, private messagesService: MessagesService) {}
+  constructor(
+    private jwt: JwtService,
+    private prisma: PrismaService,
+    private messagesService: MessagesService,
+  ) {}
 
-  handleConnection(client: Socket) {
+  async handleConnection(client: Socket) {
     try {
-      const token = client.handshake.auth?.token as string;
-      const payload = this.jwt.verify(token);
-      (client.data as any).userId = payload.sub;
+      const token = client.handshake.auth?.token as string | undefined;
+      if (!token) throw new Error('Missing token');
+
+      const payload = this.jwt.verify<{ sub?: string }>(token);
+      if (!payload.sub) throw new Error('Invalid token');
+
+      const user = await this.prisma.user.findUnique({
+        where: { id: payload.sub },
+        select: { id: true, status: true },
+      });
+      if (!user || user.status !== 'ACTIVE') throw new Error('Inactive account');
+
+      client.data.userId = user.id;
     } catch {
       client.emit('error', { message: 'Unauthorized' });
-      client.disconnect();
+      client.disconnect(true);
     }
   }
 
@@ -39,8 +51,14 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
   }
 
   @SubscribeMessage('join_match')
-  joinMatch(@ConnectedSocket() client: Socket, @MessageBody() matchId: string) {
-    client.join(`match:${matchId}`);
+  async joinMatch(@ConnectedSocket() client: Socket, @MessageBody() matchId: string) {
+    const userId = client.data.userId as string | undefined;
+    if (!userId) throw new WsException('Unauthorized');
+    if (!matchId || typeof matchId !== 'string') throw new WsException('Invalid match id');
+
+    await this.messagesService.assertParticipant(userId, matchId);
+    await client.join(`match:${matchId}`);
+    return { joined: true };
   }
 
   @SubscribeMessage('send_message')
@@ -48,11 +66,11 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
     @ConnectedSocket() client: Socket,
     @MessageBody() body: { matchId: string; type: 'TEXT' | 'EMOJI' | 'IMAGE'; content?: string; imageUrl?: string },
   ) {
-    const userId = (client.data as any).userId;
-    if (!userId) throw new UnauthorizedException();
+    const userId = client.data.userId as string | undefined;
+    if (!userId) throw new WsException('Unauthorized');
 
     const message = await this.messagesService.sendMessage(userId, body.matchId, {
-      type: body.type as any,
+      type: body.type,
       content: body.content,
       imageUrl: body.imageUrl,
     });
@@ -62,8 +80,12 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
   }
 
   @SubscribeMessage('typing')
-  typing(@ConnectedSocket() client: Socket, @MessageBody() body: { matchId: string }) {
-    const userId = (client.data as any).userId;
+  async typing(@ConnectedSocket() client: Socket, @MessageBody() body: { matchId: string }) {
+    const userId = client.data.userId as string | undefined;
+    if (!userId) throw new WsException('Unauthorized');
+    if (!body?.matchId || typeof body.matchId !== 'string') throw new WsException('Invalid match id');
+
+    await this.messagesService.assertParticipant(userId, body.matchId);
     client.to(`match:${body.matchId}`).emit('typing', { userId });
   }
 }

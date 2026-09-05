@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Param, Post, UseGuards } from '@nestjs/common';
-import { IsString } from 'class-validator';
+import { IsIn, IsString } from 'class-validator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { PhotosService } from './photos.service';
@@ -7,15 +7,13 @@ import { JwtPayload } from '../auth/jwt.strategy';
 
 class RequestUploadDto {
   @IsString()
+  @IsIn(['image/jpeg', 'image/png', 'image/webp'])
   contentType: string;
 }
 
 class ConfirmUploadDto {
   @IsString()
   storageKey: string;
-
-  @IsString()
-  publicUrl: string;
 }
 
 @UseGuards(JwtAuthGuard)
@@ -30,7 +28,7 @@ export class PhotosController {
 
   @Post('confirm')
   confirmUpload(@CurrentUser() user: JwtPayload, @Body() dto: ConfirmUploadDto) {
-    return this.photosService.confirmUpload(user.sub, dto.storageKey, dto.publicUrl);
+    return this.photosService.confirmUpload(user.sub, dto.storageKey);
   }
 
   @Delete(':id')

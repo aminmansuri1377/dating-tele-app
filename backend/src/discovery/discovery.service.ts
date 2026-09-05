@@ -1,8 +1,9 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
 
-const FREE_DAILY_SWIPES_MALE = 20; // free-tier male swipe cap; females unlimited (see below)
+const FREE_DAILY_SWIPES_MALE = 20;
+const MAX_DISCOVERY_LIMIT = 50;
 
 function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number) {
   const R = 6371;
@@ -26,7 +27,6 @@ export class DiscoveryService {
   async getRemainingSwipes(userId: string): Promise<number | null> {
     const profile = await this.prisma.profile.findUnique({ where: { userId } });
     const isPremium = await this.usersService.hasActivePremium(userId);
-    // Females and premium users: unlimited swipes (business model — see PRD)
     if (isPremium || profile?.gender === 'FEMALE') return null;
 
     const usage = await this.prisma.dailyUsage.findUnique({
@@ -35,25 +35,32 @@ export class DiscoveryService {
     return Math.max(0, FREE_DAILY_SWIPES_MALE - (usage?.swipeCount ?? 0));
   }
 
-  /** Returns a batch of candidate profiles matching the user's discovery filters. */
-  async getCandidates(userId: string, limit = 20) {
+  async getCandidates(userId: string, requestedLimit = 20) {
+    if (!Number.isInteger(requestedLimit) || requestedLimit < 1 || requestedLimit > MAX_DISCOVERY_LIMIT) {
+      throw new BadRequestException(`limit must be an integer between 1 and ${MAX_DISCOVERY_LIMIT}`);
+    }
+
     const remaining = await this.getRemainingSwipes(userId);
     if (remaining === 0) {
       throw new ForbiddenException('Daily swipe limit reached. Upgrade to Premium for unlimited swipes.');
     }
 
     const myProfile = await this.prisma.profile.findUnique({ where: { userId } });
-    if (!myProfile) throw new ForbiddenException('Complete your profile first');
+    if (!myProfile?.isComplete) throw new ForbiddenException('Complete your profile first');
 
     const genderFilter =
       myProfile.genderPref === 'EVERYONE' ? undefined : { gender: myProfile.genderPref as any };
 
-    // Exclude: self, already-swiped, blocked (either direction)
+    const candidatePreferenceFilter = {
+      genderPref: { in: ['EVERYONE', myProfile.gender] as any[] },
+    };
+
     const [alreadySwiped, blockedByMe, blockedMe] = await Promise.all([
       this.prisma.like.findMany({ where: { fromUserId: userId }, select: { toUserId: true } }),
       this.prisma.blockedUser.findMany({ where: { blockerId: userId }, select: { blockedId: true } }),
       this.prisma.blockedUser.findMany({ where: { blockedId: userId }, select: { blockerId: true } }),
     ]);
+
     const excludeIds = new Set<string>([
       userId,
       ...alreadySwiped.map((l) => l.toUserId),
@@ -65,30 +72,60 @@ export class DiscoveryService {
       where: {
         userId: { notIn: Array.from(excludeIds) },
         isVisible: true,
+        isComplete: true,
         age: { gte: myProfile.minAgePref, lte: myProfile.maxAgePref },
         ...genderFilter,
+        ...candidatePreferenceFilter,
         user: { status: 'ACTIVE' },
       },
-      include: { user: { include: { photos: { orderBy: { position: 'asc' }, take: 6 } } } },
-      // Premium "priority" profiles surface first
+      include: {
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            languageCode: true,
+            photos: {
+              where: { isApproved: true },
+              orderBy: { position: 'asc' },
+              take: 6,
+              select: { id: true, url: true, position: true },
+            },
+          },
+        },
+      },
       orderBy: [{ isPriority: 'desc' }, { updatedAt: 'desc' }],
-      take: limit * 3, // over-fetch, then filter by distance/interests in-memory
+      take: requestedLimit * 3,
     });
 
     const scored = candidates
-      .filter((c) => {
-        if (myProfile.latitude == null || c.latitude == null) return true;
-        const dist = haversineKm(myProfile.latitude, myProfile.longitude!, c.latitude, c.longitude!);
-        return dist <= myProfile.maxDistanceKm;
+      .filter((candidate) => {
+        if (
+          myProfile.latitude == null ||
+          myProfile.longitude == null ||
+          candidate.latitude == null ||
+          candidate.longitude == null
+        ) {
+          return true;
+        }
+        return (
+          haversineKm(
+            myProfile.latitude,
+            myProfile.longitude,
+            candidate.latitude,
+            candidate.longitude,
+          ) <= myProfile.maxDistanceKm
+        );
       })
-      .map((c) => {
-        const sharedInterests = c.interests.filter((i) => myProfile.interests.includes(i)).length;
-        const sharedLanguages = c.spokenLanguages.filter((l) => myProfile.spokenLanguages.includes(l)).length;
-        return { profile: c, score: sharedInterests * 2 + sharedLanguages };
+      .map((candidate) => {
+        const sharedInterests = candidate.interests.filter((interest) => myProfile.interests.includes(interest)).length;
+        const sharedLanguages = candidate.spokenLanguages.filter((language) =>
+          myProfile.spokenLanguages.includes(language),
+        ).length;
+        return { profile: candidate, score: sharedInterests * 2 + sharedLanguages };
       })
       .sort((a, b) => b.score - a.score)
-      .slice(0, limit)
-      .map((s) => s.profile);
+      .slice(0, requestedLimit)
+      .map((entry) => entry.profile);
 
     return { candidates: scored, remainingSwipes: remaining };
   }

@@ -2,6 +2,8 @@ import {
   IsArray,
   IsEnum,
   IsInt,
+  IsLatitude,
+  IsLongitude,
   IsOptional,
   IsString,
   Max,
@@ -33,16 +35,20 @@ export class UpsertProfileDto {
 
   @IsOptional()
   @IsString()
+  @MaxLength(100)
   city?: string;
 
   @IsOptional()
   @IsString()
+  @MaxLength(100)
   country?: string;
 
   @IsOptional()
+  @IsLatitude()
   latitude?: number;
 
   @IsOptional()
+  @IsLongitude()
   longitude?: number;
 
   @IsOptional()
@@ -61,14 +67,18 @@ export class UpsertProfileDto {
   @IsOptional()
   @IsInt()
   @Min(18)
+  @Max(100)
   minAgePref?: number;
 
   @IsOptional()
   @IsInt()
+  @Min(18)
   @Max(100)
   maxAgePref?: number;
 
   @IsOptional()
   @IsInt()
+  @Min(1)
+  @Max(500)
   maxDistanceKm?: number;
 }

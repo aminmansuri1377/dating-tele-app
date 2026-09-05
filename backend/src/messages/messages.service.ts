@@ -29,7 +29,7 @@ export class MessagesService {
     });
   }
 
-  private async assertParticipant(userId: string, matchId: string) {
+  async assertParticipant(userId: string, matchId: string) {
     const match = await this.prisma.match.findFirst({
       where: { id: matchId, OR: [{ userAId: userId }, { userBId: userId }] },
     });

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { TelegramValidationService, TelegramUserPayload } from './telegram-validation.service';
@@ -35,7 +35,7 @@ export class AuthService {
       isNewUser = true;
     } else {
       if (user.status === 'BANNED') {
-        throw new Error('This account has been banned.');
+        throw new ForbiddenException('This account has been banned.');
       }
       user = await this.prisma.user.update({
         where: { id: user.id },

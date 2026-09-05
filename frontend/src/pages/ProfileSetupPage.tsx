@@ -132,7 +132,6 @@ export default function ProfileSetupPage() {
          */
         const { data: confirmedPhoto } = await api.post("/photos/confirm", {
           storageKey: uploadData.storageKey,
-          publicUrl: uploadData.publicUrl,
         });
 
         setPhotos((current) => [
